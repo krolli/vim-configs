@@ -51,4 +51,5 @@
 | `P` | command | put previously deleted text from register above cursor |
 | `r` | command? | replace, aka. delete character, enter insert mode and leave after typing one character |
 | `c` | operator | change, aka. delete text and enter insert mode |
+| `y` | operator | yank text into register |
 
