@@ -20,6 +20,24 @@
 | `:e <filename>` | | open `<filename>` into buffer in current split |
 | `:bd [N]` | | close buffer `N` or current buffer if none specified |
 
+# Movement
+| input | category | description |
+| ----- | -------- | ----------- |
+| `/`   | | enter search mode |
+| `n`   | command | jump to next search result |
+
+# Folding
+| input | category | description |
+| ----- | -------- | ----------- |
+| `za`  | command  | toggle fold |
+| `zA`  | command  | toggle folds recursively |
+| `zo`  | command  | open fold |
+| `zO`  | command  | open folds recursively |
+| `zc`  | command  | close fold |
+| `zC`  | command  | close folds recursively |
+| `zM`  | command  | collapse all |
+| `zR`  | command  | expand all |
+
 # Editing
 | input | category | description |
 | ----- | -------- | ----------- |
