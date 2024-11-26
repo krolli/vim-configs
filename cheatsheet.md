@@ -14,6 +14,10 @@
 | `k` | window command | focus window above |
 | `l` | window command | focus window to the right |
 
+# Mappings
+`:h map-overview`
+`:h keycodes`
+
 # Buffers
 | input | category | description |
 | ----- | -------- | ----------- |
