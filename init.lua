@@ -28,7 +28,10 @@ vim.opt.list = true
 vim.opt.listchars:append({ space = '·' })
 vim.opt.expandtab = true
 vim.opt.shiftwidth = 2
+vim.opt.colorcolumn = "80,100"
 -- Switching between previous and next split.
+vim.keymap.set('n', '<C-l>', '<C-w>w', {})
+vim.keymap.set('n', '<C-h>', '<C-w>W', {})
 vim.keymap.set('n', '<M-Right>', '<C-w>w', {})
 vim.keymap.set('n', '<M-Left>', '<C-w>W', {})
 -- Switching between previous and next buffer in current split.
@@ -37,12 +40,15 @@ vim.keymap.set('n', '<C-PageDown>', ':bn<Enter>', {})
 -- Jumping to previous and next empty line (paragraphs).
 vim.keymap.set('n', '<C-Up>', '{', {})
 vim.keymap.set('n', '<C-Down>', '}', {})
+vim.keymap.set('n', 'm', ':make<Enter>', {})
 
 local Plug = vim.fn['plug#']
 vim.call('plug#begin')
 Plug('nvim-lua/plenary.nvim')
 Plug('nvim-telescope/telescope.nvim', { tag = '0.1.8' })
 Plug('nvim-lualine/lualine.nvim')
+Plug('ziglang/zig.vim')
+Plug('nvim-tree/nvim-web-devicons')
 vim.call('plug#end')
 
 local telescope_builtin = require('telescope.builtin')
