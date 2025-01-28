@@ -29,6 +29,8 @@ vim.opt.listchars:append({ space = '·' })
 vim.opt.expandtab = true
 vim.opt.shiftwidth = 2
 vim.opt.colorcolumn = "80,100"
+vim.opt.smartcase = true
+vim.opt.ignorecase = true
 -- Switching between previous and next split.
 vim.keymap.set('n', '<C-l>', '<C-w>w', {})
 vim.keymap.set('n', '<C-h>', '<C-w>W', {})
@@ -41,6 +43,10 @@ vim.keymap.set('n', '<C-PageDown>', ':bn<Enter>', {})
 vim.keymap.set('n', '<C-Up>', '{', {})
 vim.keymap.set('n', '<C-Down>', '}', {})
 vim.keymap.set('n', 'm', ':make<Enter>', {})
+-- Close current buffer without closing window/split. Basically moves to
+-- previous buffer, creates new split, returns to original buffer and closes
+-- the split.
+vim.keymap.set('n', '<C-q>', ':bp<bar>sp<bar>bn<bar>bd<Enter>', {})
 
 local Plug = vim.fn['plug#']
 vim.call('plug#begin')

@@ -31,7 +31,7 @@
 | `x` | command | delete character under cursor |
 | `dd` | command | delete line and store it in register |
 | `u` | command | undo last edit |
-| `U` | command | undo all edits of current line |
+| `U` | command | undo all edits of current line (this is change itself) |
 | `<C-R>` | command | redo after undo |
 | `p` | command | put previously deleted text from register below current line |
 | `P` | command | put previously deleted text from register above current line |
@@ -92,8 +92,26 @@
 | `?` | | enter search mode in backward direction |
 | `n`   | command | jump to next search result in search direction |
 | `N` | command | jump to previous search result in search direction |
-| `<C-o>` | | return to older position (as navigated using search) |
+| `<C-o>` | | return to older position (as navigated using search, also navigates back from link) |
 | `<C-i>` | | return to newer position (as navigated using search) |
+| `<C-]>` | | jump to subject under cursor (eg. in help) |
+
+# Searching
+* show where the pattern typed so far is matched
+    * `:set incsearch`
+    * `:set is`
+* highlight matches of search pattern
+    * `:set hlsearch`
+    * `:set hls`
+    * can be disabled for current search only
+        * `:nohlsearch`
+        * `:nohls`
+* search pattern matching can ignore case (be case insensitive)
+    * `:set ignorecase`
+    * `:set ic`
+* ignoring case can automatically disable when there are upper-case letters in pattern
+    * `:set smartcase`
+    * `:set scs`
 
 # Substitutions
 | input | category | description |
@@ -104,4 +122,11 @@
 | `:1,3s/old/new/g` | command | substitute all occurences of "old" with "new" on lines 1 to 3 inclusive |
 | `:%s/old/new/g` | command | substitute all occurences of "old" with "new" in the whole file |
 | `:%s/old/new/gc | command | find every occurrence in the whole file and prompt whether to substitute or not |
+
+# Encoding
+* `fileencodings` specifies sequence of encodings to try when opening a file
+* to open file with specific encoding that is not detected correctly, one can use `++enc=<encoding>`
+    * `:e ++enc=cp1250 file.txt`
+* to save file using different encoding than what it had, `++enc=<encoding>` can also be used
+    * `:w ++enc=utf-8 file.txt`
 
