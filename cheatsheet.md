@@ -54,10 +54,22 @@
 | `e` | inclusive motion | move to the end of the current word |
 | `$` | inclusive motion | move to the end of the current line |
 | `0` | inclusive motion | move to the beginning of the current line |
+| `^` | exclusive motion | move to the first non-blank character of the current line |
 | `G` | inclusive motion | move to the end of the file |
 | `gg` | inclusive motion | move to the start of the file |
+| `ge` | inclusive motion | move to the end of the end of the previous word |
 | num + `G` or `gg` | inclusive motion | move from current position to line "num" |
 | `%` | inclusive motion | move to matching wrapping character (pairs (), [], {}) |
+| `{count}%` | | jump to a line `{count}` percentage in the file |
+| `f{char}` | inclusive motion | move to the next occurrence of char on the current line |
+| `F{char}` | inclusive motion | move to the previous occurrence of char on the current line |
+| `t{char}` | inclusive motion | move to the position before next occurrence of char on the current line |
+| `T{char}` | exclusive motion | move to the position after previous occurrence of char on the current line |
+| `;` | | repeat latest `f`, `t`, `F` or `T` |
+| `,` | | repeat latest `f`, `t`, `F` or `T` in opposite direction |
+| `H` | | move to line High in the visible range of the file |
+| `M` | | move to line in the Middle of visible range of the file |
+| `L` | | move to line Low in the visible range of the file |
 
 # Splits and windows
 | input | category | description |
@@ -74,6 +86,11 @@
 | `j` | window command | focus window below |
 | `k` | window command | focus window above |
 | `l` | window command | focus window to the right |
+
+# Multi-line editing
+* <C-v> for visual block select
+* select lines that should be edited
+* `I` to enter insert mode, which appears on only one line, but when left, inserts into all lines
 
 # Mappings
 `:h map-overview`
@@ -95,6 +112,11 @@
 | `<C-o>` | | return to older position (as navigated using search, also navigates back from link) |
 | `<C-i>` | | return to newer position (as navigated using search) |
 | `<C-]>` | | jump to subject under cursor (eg. in help) |
+| `<C-u>` | | move view up by half a screen |
+| `<C-d>` | | move view down by half a screen |
+| `zz`| | move view so that current line is in the center |
+| `zt` | | move view so that current line is at the top |
+| `zb` | | move view so that current line is at the bottom |
 
 # Searching
 * show where the pattern typed so far is matched
@@ -117,10 +139,10 @@
 | input | category | description |
 |-------|----------|-------------|
 | `:s`  | command | substitution command, requires arguments separated by `/` (see below) |
-| `:s/old/new` | command | substitute first occurence of "old" with "new" on the current line |
-| `:s/old/new/g` | command | substitute all occurences of "old" with "new" on the current line |
-| `:1,3s/old/new/g` | command | substitute all occurences of "old" with "new" on lines 1 to 3 inclusive |
-| `:%s/old/new/g` | command | substitute all occurences of "old" with "new" in the whole file |
+| `:s/old/new` | command | substitute first occurrence of "old" with "new" on the current line |
+| `:s/old/new/g` | command | substitute all occurrences of "old" with "new" on the current line |
+| `:1,3s/old/new/g` | command | substitute all occurrences of "old" with "new" on lines 1 to 3 inclusive |
+| `:%s/old/new/g` | command | substitute all occurrences of "old" with "new" in the whole file |
 | `:%s/old/new/gc | command | find every occurrence in the whole file and prompt whether to substitute or not |
 
 # Encoding
@@ -129,4 +151,5 @@
     * `:e ++enc=cp1250 file.txt`
 * to save file using different encoding than what it had, `++enc=<encoding>` can also be used
     * `:w ++enc=utf-8 file.txt`
-
+* to change line endings format use `:set ff=<format>`, where valid formats are `dos` or `unix`
+    * `:set ff=unix`
