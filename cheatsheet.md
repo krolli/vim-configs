@@ -59,7 +59,7 @@
 | `gg` | inclusive motion | move to the start of the file |
 | `ge` | inclusive motion | move to the end of the end of the previous word |
 | num + `G` or `gg` | inclusive motion | move from current position to line "num" |
-| `%` | inclusive motion | move to matching wrapping character (pairs (), [], {}) |
+| `%` | inclusive motion | move to matching wrapping character (pairs (), [], {}) or language components (#if #endif) |
 | `{count}%` | | jump to a line `{count}` percentage in the file |
 | `f{char}` | inclusive motion | move to the next occurrence of char on the current line |
 | `F{char}` | inclusive motion | move to the previous occurrence of char on the current line |
@@ -153,3 +153,29 @@
     * `:w ++enc=utf-8 file.txt`
 * to change line endings format use `:set ff=<format>`, where valid formats are `dos` or `unix`
     * `:set ff=unix`
+
+# Moving through programs (usr_29.txt)
+* Set up tags file with symbol information using `ctags`, recursively for whole project in root directory.
+    * `:!ctags -R .`
+* Set vim to search for tags files in directory of current file, then current directory upwards until home directory.
+    * `:set tags=./tags,tags;$HOME`
+    * Can be stored in in vim init file.
+* Use `<C-]>` with cursor on symbol to jump to its definition.
+* Use `<C-T>` to jump to place from where jump was performed.
+* Use `<C-W>}` to open tag under cursor in preview window.
+* Use `:ptag <tagname>` to open specified tag in preview window.
+* Use `:pclose` to close the preview window.
+* Use `:pedit <filename>` to edit specified file in preview window.
+* Use `[#` to jump back to start of #if-#endif block.
+* Use `]#` to jump forward to start of next #if-#endif block.
+* Use combinations of `[`, `]`, `{`, `}`, `(` and `)` to jump to start or end of particular code block
+    * `[{` start of enclosing block
+    * `]}` end of enclosing block
+    * `[[` start of outermost block
+    * `][` end of outermost block
+    * `[]`
+    * `]]`
+    * `[(`
+    * `])`
+* Use `gd` to "Go to definition" of symbol under cursor (defined in current function).
+* Use `gD` to "Go to definition" of symbol under cursor (defined in current file).

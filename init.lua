@@ -31,6 +31,7 @@ vim.opt.shiftwidth = 2
 vim.opt.colorcolumn = "80,100"
 vim.opt.smartcase = true
 vim.opt.ignorecase = true
+vim.opt.tags = "./tags,tags;$HOME"
 -- Switching between previous and next split.
 vim.keymap.set('n', '<C-l>', '<C-w>w', {})
 vim.keymap.set('n', '<C-h>', '<C-w>W', {})
