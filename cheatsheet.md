@@ -179,3 +179,21 @@
     * `])`
 * Use `gd` to "Go to definition" of symbol under cursor (defined in current function).
 * Use `gD` to "Go to definition" of symbol under cursor (defined in current file).
+
+# Editing programs (usr_30.txt)
+* Compile from within nvim using `:make` command.
+* Pressing `<Enter>` when there are errors in `:make` output, should jump to first such error.
+* `:cfirst`, `:cnext`, `:cprevious`, `:clast` jump to first, next, previous and last error respectively
+* `:clist` shows list of errors (only those with file and line information)
+* `:clist!` shows list of errors (all lines)
+* `:colder` and `:cnewer` can be used to switch to older `:make` invocations and their resulting error lists
+* Set custom make command using `makeprg` setting
+    * `set makeprg=cmake\ --build\ --preset\ clang-debug`
+* In insert mode, `<C-T>` and `<C-D>` indent or unindent respectively.
+* In normal mode, `>>` and `<<` shift lines. `>` and `<` are operators that can be combined with motions to shift multiple lines.
+    * `>i{` - indent current block of lines, leaving `{` and `}` enclosing current block unmodified.
+* `tabstop`
+* `softtabstop`
+* `expandtab`
+* `:retab` and `:%retab`
+
