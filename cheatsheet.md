@@ -20,32 +20,42 @@
 | `zC`  | command  | close folds recursively |
 | `zM`  | command  | collapse all |
 | `zR`  | command  | expand all |
+| `:set fdl=1` | command | close all folds above level 1 |
 
 ## Editing commands
 | input | category | description |
 | ----- | -------- | ----------- |
-| `i` | command | enter insert mode to the left of cursor |
-| `a` | command | enter insert mode to the right of cursor |
-| `I` | command | enter insert mode at the beginning of current line |
-| `A` | command | enter insert mode at the end of current line |
-| `x` | command | delete character under cursor |
-| `dd` | command | delete line and store it in register |
-| `u` | command | undo last edit |
-| `U` | command | undo all edits of current line (this is change itself) |
+| `i`   | command  | enter insert mode to the left of cursor |
+| `a`   | command  | enter insert mode to the right of cursor |
+| `I`   | command  | enter insert mode at the beginning of current line |
+| `A`   | command  | enter insert mode at the end of current line |
+| `x`   | command  | delete character under cursor |
+| `dd`  | command  | delete line and store it in register |
+| `u`   | command  | undo last edit |
+| `U`   | command  | undo all edits of current line (this is change itself) |
 | `<C-R>` | command | redo after undo |
-| `p` | command | put previously deleted text from register below current line |
-| `P` | command | put previously deleted text from register above current line |
-| `r` | command? | replace, aka. delete character, enter insert mode and leave after typing one character |
-| `R` | command | enter replace mode |
-| `o` | command | open new line below current line and enter insert mode |
-| `O` | command | open new line above current line and enter insert mode |
+| `p`   | command  | put previously deleted text from register below current line |
+| `P`   | command  | put previously deleted text from register above current line |
+| `r`   | command? | replace, aka. delete character, enter insert mode and leave after typing one character |
+| `R`   | command  | enter replace mode |
+| `o`   | command  | open new line below current line and enter insert mode |
+| `O`   | command  | open new line above current line and enter insert mode |
+| `.`   | command  | repeats last change |
 
 ## Editing operators
+* `:h operator`
+
 | input | category | description |
 | ----- | -------- | ----------- |
-| `d` | operator | delete |
-| `c` | operator | change, aka. delete text and enter insert mode |
-| `y` | operator | yank text into register |
+| `d`   | operator | delete |
+| `c`   | operator | change, aka. delete text and enter insert mode |
+| `y`   | operator | yank text into register |
+| `*y`  | operator | yank text into current selection register |
+| `*p`  | operator | put text from current selection register |
+| `+y`  | operator | yank text into real clipboard register |
+| `+p`  | operator | put text from real clipboard register |
+| `"fy` | operator | yank text into register 'f' |
+| `"fp` | operator | put text from register 'f' |
 
 ## Motions
 | input | category | description |
@@ -57,7 +67,7 @@
 | `^` | exclusive motion | move to the first non-blank character of the current line |
 | `G` | inclusive motion | move to the end of the file |
 | `gg` | inclusive motion | move to the start of the file |
-| `ge` | inclusive motion | move to the end of the end of the previous word |
+| `ge` | inclusive motion | move to the end of the previous word |
 | num + `G` or `gg` | inclusive motion | move from current position to line "num" |
 | `%` | inclusive motion | move to matching wrapping character (pairs (), [], {}) or language components (#if #endif) |
 | `{count}%` | | jump to a line `{count}` percentage in the file |
@@ -86,6 +96,10 @@
 | `j` | window command | focus window below |
 | `k` | window command | focus window above |
 | `l` | window command | focus window to the right |
+| `H` | window command | move focused window to the far left |
+| `J` | window command | move focused window to the bottom |
+| `K` | window command | move focused window to the top |
+| `L` | window command | move focused window to the far right |
 
 # Multi-line editing
 * <C-v> for visual block select
@@ -145,6 +159,20 @@
 | `:%s/old/new/g` | command | substitute all occurrences of "old" with "new" in the whole file |
 | `:%s/old/new/gc | command | find every occurrence in the whole file and prompt whether to substitute or not |
 
+# Text objects
+* apply operator to whole text object inside of which a cursor is placed
+* precise position of cursor inside text object is not important
+* `daw`
+    * `d` - operator 'delete'
+    * `aw` - text object 'a word'
+
+| input | category | description |
+|-------|----------|-------------|
+| `aw`  | text object | a word (includes whitespace after word) |
+| `iw`  | text object | inner word (excludes whitespace after word) |
+| `as`  | text object | a sentence (includes whitespace after sentence) |
+| `is`  | text object | inner sentence (excludes whitespace after sentence) |
+
 # Encoding
 * `fileencodings` specifies sequence of encodings to try when opening a file
 * to open file with specific encoding that is not detected correctly, one can use `++enc=<encoding>`
@@ -153,6 +181,17 @@
     * `:w ++enc=utf-8 file.txt`
 * to change line endings format use `:set ff=<format>`, where valid formats are `dos` or `unix`
     * `:set ff=unix`
+
+# Autocompletion
+* Autocompletions are done in insert mode
+* `<C-p>`
+    * Autocomplete word based on matching words in the backward direction
+* `<C-n>`
+    * Autocomplete word based on matching words in the forward direction
+* When multiple words match:
+    * Move up and down the list using `<Up>` and `<Down>` (doesn't change text).
+    * Move up and down the list using `<C-p>` and `<C-n>` (changes text).
+    * Confirm selection using `<C-y>`.
 
 # Moving through programs (usr_29.txt)
 * Set up tags file with symbol information using `ctags`, recursively for whole project in root directory.
@@ -192,8 +231,10 @@
 * In insert mode, `<C-T>` and `<C-D>` indent or unindent respectively.
 * In normal mode, `>>` and `<<` shift lines. `>` and `<` are operators that can be combined with motions to shift multiple lines.
     * `>i{` - indent current block of lines, leaving `{` and `}` enclosing current block unmodified.
-* `tabstop`
-* `softtabstop`
-* `expandtab`
-* `:retab` and `:%retab`
-
+* Options controlling indentation (see `tabstop` and `ins-expandtab` reference)
+    * `tabstop` - number setting visual size of `<Tab>` character (in spaces)
+    * `softtabstop` - number setting indentation size (in spaces)
+    * `shiftwidth` - number setting number of spaces to use for each step of (auto)indent
+    * `smarttab` - bool enabling use of `shiftwidth` when pressing `<Tab>` in front of the line
+    * `expandtab`
+        * `:retab` and `:%retab`
