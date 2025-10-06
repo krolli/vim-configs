@@ -238,3 +238,7 @@
     * `smarttab` - bool enabling use of `shiftwidth` when pressing `<Tab>` in front of the line
     * `expandtab`
         * `:retab` and `:%retab`
+
+# Plugins
+* Checking for issues and missing libraries for plugins
+    * `:checkhealth`

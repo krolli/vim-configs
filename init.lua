@@ -86,6 +86,7 @@ Plug('nvim-lualine/lualine.nvim')
 Plug('ziglang/zig.vim')
 Plug('nvim-tree/nvim-web-devicons')
 Plug('nvim-treesitter/nvim-treesitter', { ['do'] = ':TSUpdate' })
+Plug('mason-org/mason.nvim')
 vim.call('plug#end')
 
 local telescope_builtin = require('telescope.builtin')
@@ -99,3 +100,4 @@ require('lualine').setup({
 require('nvim-treesitter.configs').setup({
     highlight = { enable = true }
 })
+require('mason').setup()
