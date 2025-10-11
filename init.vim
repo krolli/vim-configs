@@ -9,13 +9,8 @@ if empty(glob(s:vimPlugPath))
 	endif
 	execute '!curl -fLo "'.s:vimPlugPath.'" https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 	execute 'source "'.s:vimPlugPath.'"'
+	let s:runPlugInstall = 1
 endif
-
-" Delete temporary variables.
-for k in keys(s:)
-	"echo 's:'.k.'='s:[k]
-	unlet s:[k]
-endfor
 
 " May help performance on some systems (maybe Windows).
 "set nofsync
@@ -97,6 +92,9 @@ Plug 'Civitasv/cmake-tools.nvim'
 " 	:filetype plugin indent on
 " 	:syntax enable
 call plug#end()
+if exists('s:runPlugInstall')
+	PlugInstall
+endif
 
 nnoremap <C-p> <Cmd>Telescope find_files<Enter>
 
@@ -115,3 +113,10 @@ EOF
 nmap <Leader>m   <Cmd>CMakeBuild<Enter>
 nmap <Leader>ccp <Cmd>CMakeSelectConfigurePreset<Enter>
 nmap <Leader>cbp <Cmd>CMakeSelectBuildPreset<Enter>
+
+" Delete temporary variables.
+for k in keys(s:)
+	"echo 's:'.k.'='s:[k]
+	unlet s:[k]
+endfor
+
