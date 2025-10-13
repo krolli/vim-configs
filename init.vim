@@ -8,7 +8,7 @@ if empty(glob(s:vimPlugPath))
 		call mkdir(s:autoloadDir, 'p')
 	endif
 	execute '!curl -fLo "'.s:vimPlugPath.'" https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-	execute 'source "'.s:vimPlugPath.'"'
+	execute 'source '.s:vimPlugPath
 	let s:runPlugInstall = 1
 endif
 
