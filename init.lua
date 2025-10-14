@@ -3,12 +3,14 @@
 
 local vimPlugPath = vim.fn.stdpath('data')..'/site/autoload/plug.vim'
 local autoloadDir = vim.fn.stdpath('data')..'/site/autoload'
+local runPlugInstall = false
 if vim.fn.empty(vim.fn.glob(vimPlugPath)) == 1 then
 	if vim.fn.isdirectory(autoloadDir) == 0 then
 		vim.fn.mkdir(autoloadDir, 'p')
 	end
 	vim.fn.system('curl -fLo "'..vimPlugPath..'" https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim')
-	vim.cmd('source '..vimPlugPath..'')
+	vim.cmd('source '..vimPlugPath)
+	runPlugInstall = true
 end
 
 -- May help performance on some systems (maybe Windows).
@@ -89,6 +91,9 @@ Plug('mason-org/mason.nvim')
 Plug('Civitasv/cmake-tools.nvim')
 
 vim.call('plug#end')
+if runPlugInstall then
+	vim.cmd('PlugInstall')
+end
 
 local telescope_builtin = require('telescope.builtin')
 vim.keymap.set('n', '<C-p>', telescope_builtin.find_files, {})
