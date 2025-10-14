@@ -2,6 +2,10 @@
 <https://learnbyexample.github.io/vim_reference/Introduction.html>
 <https://github.com/iggredible/Learn-Vim/blob/master/ch20_views_sessions_viminfo.md>
 
+# Paths
+`:h standard-path`
+`:h xdg`
+
 # Sessions
 `:mksession <file-path.vim>` - saves current session (state, open files, ...)
 `:source <file-path.vim>` - restores session
