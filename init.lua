@@ -97,13 +97,17 @@ end
 
 local telescope_builtin = require('telescope.builtin')
 vim.keymap.set('n', '<C-p>', telescope_builtin.find_files, {})
+vim.keymap.set('n', '<C-;>', telescope_builtin.current_buffer_fuzzy_find, {})
+vim.keymap.set('n', '<C-r>', telescope_builtin.treesitter, {})
 
+require('telescope').setup({})
 require('lualine').setup({
 	options = {
 		theme = 'ayu_dark',
 	},
 })
 require('nvim-treesitter.configs').setup({
+	ensure_installed = {"c", "cpp", "lua", "rust", "zig"},
 	highlight = { enable = true }
 })
 require('mason').setup()
