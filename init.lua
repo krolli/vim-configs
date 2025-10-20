@@ -88,6 +88,9 @@ Plug('ziglang/zig.vim')
 Plug('nvim-tree/nvim-web-devicons')
 Plug('nvim-treesitter/nvim-treesitter', { ['do'] = ':TSUpdate' })
 Plug('mason-org/mason.nvim')
+Plug('mason-org/mason-lspconfig.nvim')
+Plug('neovim/nvim-lspconfig')
+Plug('nvimtools/none-ls.nvim')
 Plug('Civitasv/cmake-tools.nvim')
 
 vim.call('plug#end')
@@ -111,7 +114,27 @@ require('nvim-treesitter.configs').setup({
 	highlight = { enable = true }
 })
 require('mason').setup()
+require('mason-lspconfig').setup({
+	ensure_installed = {
+		'lua_ls',
+		-- 'stylua',
+	},
+})
+local null_ls = require('null-ls')
+null_ls.setup({
+	sources = {
+		null_ls.builtins.formatting.stylua,
+	}
+})
 
 vim.keymap.set('n', '<Leader>m', '<Cmd>CMakeBuild<Enter>')
 vim.keymap.set('n', '<Leader>ccp', '<Cmd>CMakeSelectConfigurePreset<Enter>')
 vim.keymap.set('n', '<Leader>cbp', '<Cmd>CMakeSelectBuildPreset<Enter>')
+
+vim.lsp.enable('lua_ls')
+vim.keymap.set('n', 'K', vim.lsp.buf.hover)
+vim.keymap.set('n', 'gD', vim.lsp.buf.declaration)
+vim.keymap.set('n', 'gn', vim.lsp.buf.definition)
+vim.keymap.set('n', '<Leader>ca', vim.lsp.buf.code_action)
+
+-- vim.keymap.set('n', '<Leader>gf', vim.lsp.buf.format)
