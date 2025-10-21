@@ -1,6 +1,7 @@
 # Useful links
 <https://learnbyexample.github.io/vim_reference/Introduction.html>
 <https://github.com/iggredible/Learn-Vim/blob/master/ch20_views_sessions_viminfo.md>
+<https://gist.github.com/darcyparker/1886716>
 
 # Paths
 `:h standard-path`
