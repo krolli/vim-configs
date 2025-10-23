@@ -1,5 +1,6 @@
 -- https://blog.nikfp.com/how-to-install-and-set-up-neovim-on-windows
 -- :h lua-guide
+-- https://gist.github.com/swarn/fb37d9eefe1bc616c2a7e476c0bc0316
 
 local vimPlugPath = vim.fn.stdpath('data')..'/site/autoload/plug.vim'
 local autoloadDir = vim.fn.stdpath('data')..'/site/autoload'
@@ -51,11 +52,14 @@ vim.opt.wrap = true
 vim.opt.breakindent = true
 
 -- Settings for controlling indentation.
+-- TODO: markdown files currently require :set noexpandtab
+-- TODO: C++ files have tabstop=2, softtabstop=-1, shiftwidth=2
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.smarttab = true
 vim.opt.expandtab = false
+
 vim.opt.confirm = true
 
 -- Switching between previous and next split.
@@ -68,6 +72,9 @@ vim.keymap.set('n', '<C-PageDown>', '<Cmd>bn<Enter>', {})
 
 -- Invoking :make command quickly.
 vim.keymap.set('n', 'm', ':make<Enter>', {})
+-- TODO: For configuring of cmake build on Windows, I had to:
+-- :set makeprg=cmake\ --build\ --preset\ enf
+-- :set shellpipe=>
 
 -- Close current buffer without closing window/split. Basically moves to
 -- previous buffer, creates new split, returns to original buffer and closes
