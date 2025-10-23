@@ -99,9 +99,9 @@ if runPlugInstall then
 end
 
 local telescope_builtin = require('telescope.builtin')
-vim.keymap.set('n', '<C-p>', telescope_builtin.find_files, {})
-vim.keymap.set('n', '<C-;>', telescope_builtin.current_buffer_fuzzy_find, {})
-vim.keymap.set('n', '<C-r>', telescope_builtin.treesitter, {})
+vim.keymap.set('n', '<Leader>p', telescope_builtin.find_files, {})
+vim.keymap.set('n', '<Leader>;', telescope_builtin.current_buffer_fuzzy_find, {})
+vim.keymap.set('n', '<Leader>r', telescope_builtin.treesitter, {})
 
 require('telescope').setup({})
 require('lualine').setup({
@@ -109,8 +109,9 @@ require('lualine').setup({
 		theme = 'ayu_dark',
 	},
 })
+-- It is possible to view treesitter parse tree of a buffer using commands :Inspect and :InspectTree
 require('nvim-treesitter.configs').setup({
-	ensure_installed = {"c", "cpp", "lua", "rust", "zig"},
+	ensure_installed = {"c", "cpp", "cmake", "lua", "rust", "zig"},
 	highlight = { enable = true }
 })
 require('mason').setup()
