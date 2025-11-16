@@ -102,6 +102,7 @@ local telescope_builtin = require('telescope.builtin')
 vim.keymap.set('n', '<Leader>p', telescope_builtin.find_files, {})
 vim.keymap.set('n', '<Leader>;', telescope_builtin.current_buffer_fuzzy_find, {})
 vim.keymap.set('n', '<Leader>r', telescope_builtin.treesitter, {})
+vim.keymap.set('n', '<Leader>fs', telescope_builtin.lsp_dynamic_workspace_symbols, {})
 
 require('telescope').setup({})
 require('lualine').setup({
@@ -119,6 +120,7 @@ require('mason-lspconfig').setup({
 	ensure_installed = {
 		'lua_ls',
 		-- 'stylua',
+		'clangd',
 	},
 })
 local null_ls = require('null-ls')
@@ -133,6 +135,7 @@ vim.keymap.set('n', '<Leader>ccp', '<Cmd>CMakeSelectConfigurePreset<Enter>')
 vim.keymap.set('n', '<Leader>cbp', '<Cmd>CMakeSelectBuildPreset<Enter>')
 
 vim.lsp.enable('lua_ls')
+vim.lsp.enable('clangd')
 vim.keymap.set('n', 'K', vim.lsp.buf.hover)
 vim.keymap.set('n', 'gD', vim.lsp.buf.declaration)
 vim.keymap.set('n', 'gn', vim.lsp.buf.definition)
