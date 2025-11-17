@@ -38,9 +38,10 @@ vim.opt.foldmethod = 'indent'
 
 -- Set whitespace character visualization.
 vim.opt.list = true
-vim.opt.listchars:append({ space = '·' })
+vim.opt.listchars:append({ space = '·', nbsp = '␣' })
 
 vim.opt.colorcolumn = "80,100"
+vim.opt.signcolumn = 'yes'
 vim.opt.smartcase = true
 vim.opt.ignorecase = true
 vim.opt.tags = "./tags,tags;$HOME"
@@ -91,20 +92,46 @@ Plug('mason-org/mason.nvim')
 Plug('mason-org/mason-lspconfig.nvim')
 Plug('neovim/nvim-lspconfig')
 Plug('nvimtools/none-ls.nvim')
-Plug('Civitasv/cmake-tools.nvim')
+Plug('folke/which-key.nvim')
 
 vim.call('plug#end')
 if runPlugInstall then
 	vim.cmd('PlugInstall')
 end
 
-local telescope_builtin = require('telescope.builtin')
-vim.keymap.set('n', '<Leader>p', telescope_builtin.find_files, {})
-vim.keymap.set('n', '<Leader>;', telescope_builtin.current_buffer_fuzzy_find, {})
-vim.keymap.set('n', '<Leader>r', telescope_builtin.treesitter, {})
-vim.keymap.set('n', '<Leader>fs', telescope_builtin.lsp_dynamic_workspace_symbols, {})
+local function init_telescope()
+	require('telescope').setup({})
+	local builtin = require('telescope.builtin')
+	vim.keymap.set('n', '<Leader>fc', builtin.current_buffer_fuzzy_find, { desc = '[f]ind in [c]urrent buffer' })
+	vim.keymap.set('n', '<Leader>ft', builtin.treesitter, { desc = '[f]ind using [t]reesitter' })
+	vim.keymap.set('n', '<Leader>fh', builtin.help_tags, { desc = '[f]ind in [h]elp' })
+	vim.keymap.set('n', '<Leader>fk', builtin.keymaps, { desc = '[f]ind [k]eymaps' })
+	vim.keymap.set('n', '<Leader>ff', builtin.find_files, { desc = '[f]ind [f]iles' })
+	vim.keymap.set('n', '<Leader>fb', builtin.builtin, { desc = '[f]ind [b]uilt-in Telescope picker' })
+	vim.keymap.set('n', '<Leader>fw', builtin.grep_string, { desc = '[f]ind [w]ord under cursor' })
+	vim.keymap.set('n', '<Leader>fg', builtin.live_grep, { desc = '[f]ind by [g]rep' })
+	vim.keymap.set('n', '<Leader>fd', builtin.diagnostics, { desc = '[f]ind in [d]iagnostics' })
+	vim.keymap.set('n', '<Leader>fp', builtin.resume, { desc = '[f]ind (resume [p]revious)' })
+	vim.keymap.set('n', '<Leader>f.', builtin.oldfiles, { desc = '[f]ind in recent files ([.] for repeat)' })
+	vim.keymap.set('n', '<Leader>fo', builtin.buffers, { desc = '[f]ind [o]pen buffer' })
+end
 
-require('telescope').setup({})
+init_telescope()
+
+require('which-key').setup({
+	delay = 1000,
+	icons = {
+		mappings = vim.g.have_nerd_font,
+		keys = {},
+	},
+	spec = {
+		{ '<Leader>f', group = '[f]ind ...' },
+		{ '<Leader>g', group = '[g]o to ...' },
+		{ '<Leader>c', group = '[c]ode ...' },
+		{ '<Leader>t', group = '[t]oggle' },
+	},
+})
+
 require('lualine').setup({
 	options = {
 		theme = 'ayu_dark',
@@ -123,22 +150,65 @@ require('mason-lspconfig').setup({
 		'clangd',
 	},
 })
-local null_ls = require('null-ls')
-null_ls.setup({
-	sources = {
-		null_ls.builtins.formatting.stylua,
-	}
-})
-
-vim.keymap.set('n', '<Leader>m', '<Cmd>CMakeBuild<Enter>')
-vim.keymap.set('n', '<Leader>ccp', '<Cmd>CMakeSelectConfigurePreset<Enter>')
-vim.keymap.set('n', '<Leader>cbp', '<Cmd>CMakeSelectBuildPreset<Enter>')
 
 vim.lsp.enable('lua_ls')
 vim.lsp.enable('clangd')
-vim.keymap.set('n', 'K', vim.lsp.buf.hover)
-vim.keymap.set('n', 'gD', vim.lsp.buf.declaration)
-vim.keymap.set('n', 'gn', vim.lsp.buf.definition)
-vim.keymap.set('n', '<Leader>ca', vim.lsp.buf.code_action)
 
--- vim.keymap.set('n', '<Leader>gf', vim.lsp.buf.format)
+vim.api.nvim_create_autocmd('LspAttach', {
+	group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
+	callback = function(event)
+		local map = function(keys, func, desc, mode)
+			mode = mode or 'n'
+			vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
+		end
+
+		local telescope = require('telescope.builtin')
+		map('<Leader>ch', vim.lsp.buf.hover, '[c]ode [h]over')
+		map('<Leader>cr', vim.lsp.buf.rename, '[c]ode [r]ename')
+		map('<Leader>ca', vim.lsp.buf.code_action, '[c]ode [a]ction', { 'n', 'x' })
+		map('<Leader>cf', vim.lsp.buf.format, '[c]ode [f]ormat')
+		map('<Leader>gi', telescope.lsp_implementations, '[g]o to [i]mplementation')
+		map('<Leader>gd', telescope.lsp_definitions, '[g]o to [d]efinition') --  To jump back, press <C-t>.
+		map('<Leader>gD', vim.lsp.buf.declaration, '[g]o to [D]eclaration')
+		map('<Leader>gt', telescope.lsp_type_definitions, '[g]o to [t]ype of symbol')
+		map('<Leader>fr', telescope.lsp_references, '[f]ind [r]eferences')
+		map('<Leader>fs', telescope.lsp_document_symbols, '[f]ind document [s]ymbols')
+		map('<Leader>fS', telescope.lsp_dynamic_workspace_symbols, '[f]ind workspace [S]ymbols')
+
+		-- The following two autocommands are used to highlight references of the
+		-- word under your cursor when your cursor rests there for a little while.
+		--    See `:help CursorHold` for information about when this is executed
+		--
+		-- When you move your cursor, the highlights will be cleared (the second autocommand).
+		local client = vim.lsp.get_client_by_id(event.data.client_id)
+		if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight, event.buf) then
+			local highlight_augroup = vim.api.nvim_create_augroup('kickstart-lsp-highlight', { clear = false })
+			vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
+				buffer = event.buf,
+				group = highlight_augroup,
+				callback = vim.lsp.buf.document_highlight,
+			})
+
+			vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
+				buffer = event.buf,
+				group = highlight_augroup,
+				callback = vim.lsp.buf.clear_references,
+			})
+
+			vim.api.nvim_create_autocmd('LspDetach', {
+				group = vim.api.nvim_create_augroup('kickstart-lsp-detach', { clear = true }),
+				callback = function(event2)
+					vim.lsp.buf.clear_references()
+					vim.api.nvim_clear_autocmds { group = 'kickstart-lsp-highlight', buffer = event2.buf }
+				end,
+			})
+		end
+
+		local function toggle_inlay_hints()
+			vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
+		end
+		if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
+			map('<Leader>th', toggle_inlay_hints, '[t]oggle inlay [h]ints')
+		end
+	end,
+})
