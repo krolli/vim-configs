@@ -78,6 +78,23 @@ vim.keymap.set('n', '<C-q>', '<Cmd>bp<Bar>sp<Bar>bn<Bar>bd<Enter>', {})
 --  See `:help hlsearch`
 vim.keymap.set('n', '<Esc>', '<Cmd>nohlsearch<CR>')
 
+vim.diagnostic.config({
+	float = { border = 'rounded', source = 'if_many' },
+	underline = { severity = vim.diagnostic.severity.ERROR },
+	signs = {
+		text = {
+			[vim.diagnostic.severity.ERROR] = '󰅚',
+			[vim.diagnostic.severity.WARN] = '󰀪',
+			[vim.diagnostic.severity.INFO] = '󰋽',
+			[vim.diagnostic.severity.HINT] = '󰌶',
+		},
+	},
+	virtual_text = false and {
+		source = 'if_many',
+		spacing = 2,
+	},
+})
+
 -- Use `:PlugInstall` after adding a plugin to install it.
 vim.call('plug#begin')
 
@@ -152,6 +169,36 @@ require('mason-lspconfig').setup({
 })
 
 vim.lsp.enable('lua_ls')
+vim.lsp.config('lua_ls', {
+	on_init = function(client)
+		if client.workspace_folders then
+			local path = client.workspace_folders[1].name
+			if path ~= vim.fn.stdpath('config') and (vim.uv.fs_stat(path .. '/.luarc.json') or vim.uv.fs_stat(path .. '/.luarc.jsonc')) then
+				return
+			end
+		end
+
+		client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
+			runtime = {
+				version = 'LuaJIT',
+				path = {
+					'lua/?.lua',
+					'lua/?/init.lua',
+				},
+			},
+			workspace = {
+				checkThirdParty = false,
+				library = {
+					vim.env.VIMRUNTIME,
+					'${3rd}/luv/library',
+				}
+			}
+		})
+	end,
+	settings = {
+		Lua = {}
+	}
+})
 vim.lsp.enable('clangd')
 
 vim.api.nvim_create_autocmd('LspAttach', {
