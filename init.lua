@@ -94,6 +94,11 @@ vim.diagnostic.config({
 		spacing = 2,
 	},
 })
+vim.filetype.add({
+	extension = {
+		Jenkinsfile = 'groovy',
+	}
+})
 
 -- Use `:PlugInstall` after adding a plugin to install it.
 vim.call('plug#begin')
