@@ -211,6 +211,14 @@ vim.lsp.config('lua_ls', {
 vim.lsp.enable('clangd')
 vim.lsp.enable('gopls')
 
+local augid = vim.api.nvim_create_augroup("MyVimRC", { clear = true })
+vim.api.nvim_create_autocmd("FileType", {
+	group = augid,
+	pattern = "lilypond",
+	callback = function()
+		vim.opt_local.shiftwidth = 4
+	end
+})
 vim.api.nvim_create_autocmd('LspAttach', {
 	group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
 	callback = function(event)
