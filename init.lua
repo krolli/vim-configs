@@ -160,6 +160,7 @@ require('nvim-treesitter.configs').setup({
 		"c",
 		"cpp",
 		"cmake",
+		"go",
 		"lua",
 		"rust",
 		"zig",
@@ -172,6 +173,7 @@ require('mason-lspconfig').setup({
 		'lua_ls',
 		-- 'stylua',
 		'clangd',
+		'gopls',
 	},
 })
 
@@ -207,6 +209,7 @@ vim.lsp.config('lua_ls', {
 	}
 })
 vim.lsp.enable('clangd')
+vim.lsp.enable('gopls')
 
 vim.api.nvim_create_autocmd('LspAttach', {
 	group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
