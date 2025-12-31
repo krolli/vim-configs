@@ -156,7 +156,14 @@ require('lualine').setup({
 })
 -- It is possible to view treesitter parse tree of a buffer using commands :Inspect and :InspectTree
 require('nvim-treesitter.configs').setup({
-	ensure_installed = {"c", "cpp", "cmake", "lua", "rust", "zig"},
+	ensure_installed = {
+		"c",
+		"cpp",
+		"cmake",
+		"lua",
+		"rust",
+		"zig",
+	},
 	highlight = { enable = true }
 })
 require('mason').setup()
