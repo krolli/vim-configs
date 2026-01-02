@@ -80,22 +80,38 @@ vim.keymap.set('n', '<C-q>', '<Cmd>bp<Bar>sp<Bar>bn<Bar>bd<Enter>', {})
 --  See `:help hlsearch`
 vim.keymap.set('n', '<Esc>', '<Cmd>nohlsearch<CR>')
 
-vim.diagnostic.config({
-	float = { border = 'rounded', source = 'if_many' },
-	underline = { severity = vim.diagnostic.severity.ERROR },
-	signs = {
-		text = {
-			[vim.diagnostic.severity.ERROR] = '󰅚',
-			[vim.diagnostic.severity.WARN] = '󰀪',
-			[vim.diagnostic.severity.INFO] = '󰋽',
-			[vim.diagnostic.severity.HINT] = '󰌶',
+local function init_diagnostic()
+	vim.diagnostic.config({
+		float = { border = 'rounded', source = 'if_many' },
+		underline = { severity = vim.diagnostic.severity.ERROR },
+		signs = {
+			text = {
+				[vim.diagnostic.severity.ERROR] = '󰅚',
+				[vim.diagnostic.severity.WARN] = '󰀪',
+				[vim.diagnostic.severity.INFO] = '󰋽',
+				[vim.diagnostic.severity.HINT] = '󰌶',
+			},
 		},
-	},
-	virtual_text = false and {
+		virtual_text = false,
+	})
+	local vt_table = {
 		source = 'if_many',
 		spacing = 2,
-	},
-})
+	}
+	local vt_enabled = false
+	local function toggle_vt()
+		if vt_enabled then
+			vim.diagnostic.config({ virtual_text = false })
+		else
+			vim.diagnostic.config({ virtual_text = vt_table })
+		end
+		vt_enabled = not vt_enabled
+	end
+	vim.keymap.set('n', '<Leader>td', toggle_vt, { desc = '[t]oggle [d]iagnostic virtual text' })
+end
+
+init_diagnostic()
+
 vim.filetype.add({
 	extension = {
 		Jenkinsfile = 'groovy',
