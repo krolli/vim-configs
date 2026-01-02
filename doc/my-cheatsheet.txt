@@ -9,9 +9,9 @@ See also:
 ==============================================================================
 Useful links                                    *my-cheatsheet-links*
 
-<https://learnbyexample.github.io/vim_reference/Introduction.html>
-<https://github.com/iggredible/Learn-Vim/blob/master/ch20_views_sessions_viminfo.md>
-<https://gist.github.com/darcyparker/1886716>
+https://learnbyexample.github.io/vim_reference/Introduction.html
+https://github.com/iggredible/Learn-Vim/blob/master/ch20_views_sessions_viminfo.md
+https://gist.github.com/darcyparker/1886716
 
 ==============================================================================
 Customization structure                         *my-cheatsheet-customizing*
@@ -35,7 +35,7 @@ Autocommand events                              *my-cheatsheet-autocmds*
 ==============================================================================
 File types                                      *my-cheatsheet-filetypes*
 `:h filetype.txt`
-<https://jdhao.github.io/2022/12/02/nvim-override-default-options>
+https://jdhao.github.io/2022/12/02/nvim-override-default-options
 * It seems that using separate files will ensure they are placed in correct
   autocmd groups, but I'm not sure whether resourcing $MYVIMRC will reload them
   as well.
