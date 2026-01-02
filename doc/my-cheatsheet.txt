@@ -1,20 +1,74 @@
-# Useful links
+*my-cheatsheet.txt*	My cheatsheet with links to docs
+
+==============================================================================
+My cheatsheet
+
+See also:
+	|quickref|
+
+==============================================================================
+Useful links                                    *my-cheatsheet-links*
+
 <https://learnbyexample.github.io/vim_reference/Introduction.html>
 <https://github.com/iggredible/Learn-Vim/blob/master/ch20_views_sessions_viminfo.md>
 <https://gist.github.com/darcyparker/1886716>
 
-# Paths
-`:h standard-path`
-`:h xdg`
+==============================================================================
+Customization structure                         *my-cheatsheet-customizing*
+* Great place describing both search paths and expected files under it, is `:h runtimepath`
+* `:h source`
+* `:h runtime`
+* `:h packadd`
+* `:h packloadall`
 
-# Sessions
+==============================================================================
+Paths                                           *my-cheatsheet-paths*
+* `:h standard-path`
+* `:h runtimepath`
+* `:h packpath`
+* `:h xdg`
+
+==============================================================================
+Autocommand events                              *my-cheatsheet-autocmds*
+`:h autocmd-events`
+
+==============================================================================
+File types                                      *my-cheatsheet-filetypes*
+`:h filetype.txt`
+<https://jdhao.github.io/2022/12/02/nvim-override-default-options>
+* It seems that using separate files will ensure they are placed in correct
+  autocmd groups, but I'm not sure whether resourcing $MYVIMRC will reload them
+  as well.
+  * `:runtime! ftdetect/*.{vim,lua}` is used for sourcing ftdetect files.
+
+==============================================================================
+Sessions                                        *my-cheatsheet-sessions*
 `:mksession <file-path.vim>` - saves current session (state, open files, ...)
 `:source <file-path.vim>` - restores session
 `nvim -S <file-path.vim>` - starts vim, restoring specific session
 
-# Normal mode
+==============================================================================
+Help                                            *my-cheatsheet-help*
 
-## Folding
+For a file to be available in help (and to match existing conventions), a few
+things need to be done. First, text file is placed in |runtimepath| in a
+`doc/` subdirectory. Second, help tags are generated for this particular
+directory using `:helptags`. After any change introducing new tags into the
+file, tags need to be regenerated.
+
+See also:
+	|add-local-help|
+	|write-local-help|
+	|help-writing|
+	|helptags|
+	|helphelp.txt|
+
+==============================================================================
+Normal mode                                     *my-cheatsheet-mode-normal*
+
+------------------------------------------------------------------------------
+Folding
+
 | input | category | description |
 | ----- | -------- | ----------- |
 | `za`  | command  | toggle fold |
@@ -27,7 +81,9 @@
 | `zR`  | command  | expand all |
 | `:set fdl=1` | command | close all folds above level 1 |
 
-## Editing commands
+------------------------------------------------------------------------------
+Editing commands
+
 | input | category | description |
 | ----- | -------- | ----------- |
 | `i`   | command  | enter insert mode to the left of cursor |
@@ -47,7 +103,9 @@
 | `O`   | command  | open new line above current line and enter insert mode |
 | `.`   | command  | repeats last change |
 
-## Editing operators
+------------------------------------------------------------------------------
+Editing operators
+
 * `:h operator`
 
 | input | category | description |
@@ -62,7 +120,9 @@
 | `"fy` | operator | yank text into register 'f' |
 | `"fp` | operator | put text from register 'f' |
 
-## Motions
+------------------------------------------------------------------------------
+Motions
+
 | input | category | description |
 | ----- | -------- | ----------- |
 | `w` | exclusive motion | move to the start of the next word |
@@ -86,7 +146,9 @@
 | `M` | | move to line in the Middle of visible range of the file |
 | `L` | | move to line Low in the visible range of the file |
 
-# Splits and windows
+==============================================================================
+Splits and windows                              *my-cheatsheet-splits*
+
 | input | category | description |
 | ----- | -------- | ----------- |
 | `:vsplit` | | create vertical split |
@@ -106,22 +168,30 @@
 | `K` | window command | move focused window to the top |
 | `L` | window command | move focused window to the far right |
 
-# Multi-line editing
+==============================================================================
+Multi-line editing                              *my-cheatsheet-multiline*
+
 * <C-v> for visual block select
 * select lines that should be edited
 * `I` to enter insert mode, which appears on only one line, but when left, inserts into all lines
 
-# Mappings
+==============================================================================
+Mappings                                        *my-cheatsheet-mappings*
+
 `:h map-overview`
 `:h keycodes`
 
-# Buffers
+==============================================================================
+Buffers                                         *my-cheatsheet-buffers*
+
 | input | category | description |
 | ----- | -------- | ----------- |
 | `:e <filename>` | | open `<filename>` into buffer in current split |
 | `:bd [N]` | | close buffer `N` or current buffer if none specified |
 
-# Movement
+==============================================================================
+Movement                                        *my-cheatsheet-movement*
+
 | input | category | description |
 | ----- | -------- | ----------- |
 | `/`   | | enter search mode in forward direction |
@@ -137,7 +207,9 @@
 | `zt` | | move view so that current line is at the top |
 | `zb` | | move view so that current line is at the bottom |
 
-# Searching
+==============================================================================
+Searching                                       *my-cheatsheet-searching*
+
 * show where the pattern typed so far is matched
     * `:set incsearch`
     * `:set is`
@@ -154,7 +226,9 @@
     * `:set smartcase`
     * `:set scs`
 
-# Substitutions
+==============================================================================
+Substitutions                                   *my-cheatsheet-subst*
+
 | input | category | description |
 |-------|----------|-------------|
 | `:s`  | command | substitution command, requires arguments separated by `/` (see below) |
@@ -164,7 +238,9 @@
 | `:%s/old/new/g` | command | substitute all occurrences of "old" with "new" in the whole file |
 | `:%s/old/new/gc | command | find every occurrence in the whole file and prompt whether to substitute or not |
 
-# Text objects
+==============================================================================
+Text objects                                    *my-cheatsheet-text-obj*
+
 * apply operator to whole text object inside of which a cursor is placed
 * precise position of cursor inside text object is not important
 * `daw`
@@ -178,7 +254,9 @@
 | `as`  | text object | a sentence (includes whitespace after sentence) |
 | `is`  | text object | inner sentence (excludes whitespace after sentence) |
 
-# Encoding
+==============================================================================
+Encoding                                        *my-cheatsheet-encoding*
+
 * `fileencodings` specifies sequence of encodings to try when opening a file
 * to open file with specific encoding that is not detected correctly, one can use `++enc=<encoding>`
     * `:e ++enc=cp1250 file.txt`
@@ -187,7 +265,9 @@
 * to change line endings format use `:set ff=<format>`, where valid formats are `dos` or `unix`
     * `:set ff=unix`
 
-# Autocompletion
+==============================================================================
+Autocompletion                                  *my-cheatsheet-autocomplete*
+
 * Autocompletions are done in insert mode
 * `<C-p>`
     * Autocomplete word based on matching words in the backward direction
@@ -198,7 +278,9 @@
     * Move up and down the list using `<C-p>` and `<C-n>` (changes text).
     * Confirm selection using `<C-y>`.
 
-# Moving through programs (usr_29.txt)
+==============================================================================
+Moving through programs (usr_29.txt)            *my-cheatsheet-move-prog*
+
 * Set up tags file with symbol information using `ctags`, recursively for whole project in root directory.
     * `:!ctags -R .`
 * Set vim to search for tags files in directory of current file, then current directory upwards until home directory.
@@ -224,7 +306,9 @@
 * Use `gd` to "Go to definition" of symbol under cursor (defined in current function).
 * Use `gD` to "Go to definition" of symbol under cursor (defined in current file).
 
-# Editing programs (usr_30.txt)
+==============================================================================
+Editing programs (usr_30.txt)                   *my-cheatsheet-edit-prog*
+
 * Compile from within nvim using `:make` command.
 * Pressing `<Enter>` when there are errors in `:make` output, should jump to first such error.
 * `:cfirst`, `:cnext`, `:cprevious`, `:clast` jump to first, next, previous and last error respectively
@@ -244,6 +328,11 @@
     * `expandtab`
         * `:retab` and `:%retab`
 
-# Plugins
+==============================================================================
+Plugins                                         *my-cheatsheet-plugins*
+
 * Checking for issues and missing libraries for plugins
     * `:checkhealth`
+
+==============================================================================
+vim:ft=help:tw=78:ts=8:sts=8:noet:norl:
