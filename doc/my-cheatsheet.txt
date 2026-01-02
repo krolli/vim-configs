@@ -41,6 +41,10 @@ File types                                      *my-cheatsheet-filetypes*
   as well.
   * `:runtime! ftdetect/*.{vim,lua}` is used for sourcing ftdetect files.
 
+Neovim supports EditorConfig files, which may sometimes lead to surprising
+formatting (one that does not match either file type, or user init file). More
+on this in |editorconfig|.
+
 ==============================================================================
 Sessions                                        *my-cheatsheet-sessions*
 `:mksession <file-path.vim>` - saves current session (state, open files, ...)
