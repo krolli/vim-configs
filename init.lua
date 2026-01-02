@@ -25,6 +25,8 @@ vim.g.maplocalleader = "\\"
 -- Some nerd fonts can be downloaded from https://www.nerdfonts.com/font-downloads
 vim.g.have_nerd_font = true
 
+vim.g.markdown_recommended_style = false
+
 vim.opt.encoding = "utf-8"
 
 -- Setup line number column.
