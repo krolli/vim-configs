@@ -59,6 +59,14 @@ vim.opt.shiftwidth = 4
 vim.opt.smarttab = true
 vim.opt.expandtab = false
 vim.opt.confirm = true
+-- Dealing with annoying indentation of C preprocessor code. Details in `:h indent.txt`
+-- vimscript: `:set cinkeys-=0#`
+-- vimscript: `:set cinoptions+=#1s`
+-- Needs to be investigated more, though these seem like good defaults.
+-- Not sure I want this everywhere or just some projects. Currently setting in
+-- Session.vim to restrict behavior.
+-- Generally want to restrict to just C/C++ files. Since these options are
+-- designed for C-like languages, it might be safe to set globally.
 
 -- Switching between previous and next split.
 vim.keymap.set('n', '<C-l>', '<C-w>w', {})
@@ -232,6 +240,10 @@ vim.lsp.config('lua_ls', {
 	}
 })
 vim.lsp.enable('clangd')
+-- vim.lsp.config('clangd', {
+-- 	settings = {
+-- 	}
+-- })
 vim.lsp.enable('gopls')
 
 local augid = vim.api.nvim_create_augroup("MyVimRC", { clear = true })
@@ -251,6 +263,9 @@ vim.api.nvim_create_autocmd('LspAttach', {
 		end
 
 		local telescope = require('telescope.builtin')
+		local function find_references()
+			telescope.lsp_references { show_line = false }
+		end
 		map('<Leader>ch', vim.lsp.buf.hover, '[c]ode [h]over')
 		map('<Leader>cr', vim.lsp.buf.rename, '[c]ode [r]ename')
 		map('<Leader>ca', vim.lsp.buf.code_action, '[c]ode [a]ction', { 'n', 'x' })
@@ -259,7 +274,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 		map('<Leader>gd', telescope.lsp_definitions, '[g]o to [d]efinition') --  To jump back, press <C-t>.
 		map('<Leader>gD', vim.lsp.buf.declaration, '[g]o to [D]eclaration')
 		map('<Leader>gt', telescope.lsp_type_definitions, '[g]o to [t]ype of symbol')
-		map('<Leader>fr', telescope.lsp_references, '[f]ind [r]eferences')
+		map('<Leader>fr', find_references, '[f]ind [r]eferences')
 		map('<Leader>fs', telescope.lsp_document_symbols, '[f]ind document [s]ymbols')
 		map('<Leader>fS', telescope.lsp_dynamic_workspace_symbols, '[f]ind workspace [S]ymbols')
 
