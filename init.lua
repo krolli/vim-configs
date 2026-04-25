@@ -123,6 +123,7 @@ init_diagnostic()
 vim.filetype.add({
 	extension = {
 		Jenkinsfile = 'groovy',
+		Containerfile = 'dockerfile',
 	}
 })
 
