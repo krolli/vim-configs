@@ -132,7 +132,7 @@ vim.call('plug#begin')
 
 local Plug = vim.fn['plug#']
 Plug('nvim-lua/plenary.nvim')
-Plug('nvim-telescope/telescope.nvim', { tag = '0.1.8' })
+Plug('nvim-telescope/telescope.nvim', { tag = '0.2.2' })
 Plug('nvim-lualine/lualine.nvim')
 Plug('ziglang/zig.vim')
 Plug('nvim-tree/nvim-web-devicons')
@@ -187,7 +187,7 @@ require('lualine').setup({
 	},
 })
 -- It is possible to view treesitter parse tree of a buffer using commands :Inspect and :InspectTree
-require('nvim-treesitter.configs').setup({
+require('nvim-treesitter').setup({
 	ensure_installed = {
 		"c",
 		"cpp",
