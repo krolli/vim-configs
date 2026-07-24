@@ -1,18 +1,6 @@
 -- https://blog.nikfp.com/how-to-install-and-set-up-neovim-on-windows
 -- :h lua-guide
 
-local vimPlugPath = vim.fn.stdpath('data')..'/site/autoload/plug.vim'
-local autoloadDir = vim.fn.stdpath('data')..'/site/autoload'
-local runPlugInstall = false
-if vim.fn.empty(vim.fn.glob(vimPlugPath)) == 1 then
-	if vim.fn.isdirectory(autoloadDir) == 0 then
-		vim.fn.mkdir(autoloadDir, 'p')
-	end
-	vim.fn.system('curl -fLo "'..vimPlugPath..'" https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim')
-	vim.cmd('source '..vimPlugPath)
-	runPlugInstall = true
-end
-
 -- May help performance on some systems (maybe Windows).
 --vim.opt.fsync = false
 
@@ -127,26 +115,19 @@ vim.filetype.add({
 	}
 })
 
--- Use `:PlugInstall` after adding a plugin to install it.
-vim.call('plug#begin')
-
-local Plug = vim.fn['plug#']
-Plug('nvim-lua/plenary.nvim')
-Plug('nvim-telescope/telescope.nvim', { tag = '0.2.2' })
-Plug('nvim-lualine/lualine.nvim')
-Plug('ziglang/zig.vim')
-Plug('nvim-tree/nvim-web-devicons')
-Plug('nvim-treesitter/nvim-treesitter', { ['do'] = ':TSUpdate' })
-Plug('mason-org/mason.nvim')
-Plug('mason-org/mason-lspconfig.nvim')
-Plug('neovim/nvim-lspconfig')
-Plug('nvimtools/none-ls.nvim')
-Plug('folke/which-key.nvim')
-
-vim.call('plug#end')
-if runPlugInstall then
-	vim.cmd('PlugInstall')
-end
+vim.pack.add{
+	'https://github.com/nvim-lua/plenary.nvim',
+	'https://github.com/nvim-telescope/telescope.nvim',
+	'https://github.com/nvim-lualine/lualine.nvim',
+	'https://codeberg.org/ziglang/zig.vim',
+	'https://github.com/nvim-tree/nvim-web-devicons',
+	'https://github.com/nvim-treesitter/nvim-treesitter',-- { ['do'] = ':TSUpdate' }),
+	'https://github.com/mason-org/mason.nvim',
+	'https://github.com/mason-org/mason-lspconfig.nvim',
+	'https://github.com/neovim/nvim-lspconfig',
+	'https://github.com/nvimtools/none-ls.nvim',
+	'https://github.com/folke/which-key.nvim',
+}
 
 local function init_telescope()
 	require('telescope').setup({})
@@ -186,6 +167,7 @@ require('lualine').setup({
 		theme = 'ayu_dark',
 	},
 })
+
 -- It is possible to view treesitter parse tree of a buffer using commands :Inspect and :InspectTree
 require('nvim-treesitter').setup({
 	ensure_installed = {
@@ -193,7 +175,7 @@ require('nvim-treesitter').setup({
 		"cpp",
 		"cmake",
 		"go",
-		"lua",
+		-- "lua",
 		"rust",
 		"zig",
 	},
