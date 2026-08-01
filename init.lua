@@ -188,6 +188,7 @@ require('mason-lspconfig').setup({
 		-- 'stylua',
 		'clangd',
 		'gopls',
+		'zls',
 	},
 })
 
@@ -228,6 +229,7 @@ vim.lsp.enable('clangd')
 -- 	}
 -- })
 vim.lsp.enable('gopls')
+vim.lsp.enable('zls')
 
 local augid = vim.api.nvim_create_augroup("MyVimRC", { clear = true })
 vim.api.nvim_create_autocmd("FileType", {
@@ -235,6 +237,15 @@ vim.api.nvim_create_autocmd("FileType", {
 	pattern = "lilypond",
 	callback = function()
 		vim.opt_local.shiftwidth = 4
+	end
+})
+vim.g.zig_fmt_parse_errors = 0
+vim.g.zig_fmt_autosave = 0
+vim.api.nvim_create_autocmd('BufWritePre', {
+	group = augid,
+	pattern = { '*.zig', '*.zon' },
+	callback = function(ev)
+		vim.lsp.buf.format()
 	end
 })
 vim.api.nvim_create_autocmd('LspAttach', {
