@@ -25,6 +25,8 @@ vim.opt.autowriteall = true
 vim.opt.cursorline = true
 vim.opt.foldenable = false
 vim.opt.foldmethod = 'indent'
+vim.opt.autocomplete = true
+vim.opt.completeopt:append({ 'fuzzy' })
 
 -- Set whitespace character visualization.
 vim.opt.list = true
@@ -237,6 +239,13 @@ vim.api.nvim_create_autocmd("FileType", {
 	pattern = "lilypond",
 	callback = function()
 		vim.opt_local.shiftwidth = 4
+	end
+})
+vim.api.nvim_create_autocmd("FileType", {
+	group = augid,
+	pattern = "TelescopePrompt",
+	callback = function()
+		vim.opt_local.autocomplete = false
 	end
 })
 vim.g.zig_fmt_parse_errors = 0
