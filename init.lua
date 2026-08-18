@@ -191,6 +191,7 @@ require('mason-lspconfig').setup({
 		'clangd',
 		'gopls',
 		'zls',
+		'rust_analyzer',
 	},
 })
 
